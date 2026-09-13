@@ -1,4 +1,4 @@
-# Simon's Game
+# BOXOLINO
 
 A top-down boxing/training game built from Simon's own drawings.
 

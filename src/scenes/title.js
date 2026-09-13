@@ -14,7 +14,8 @@ export class TitleScene {
     if (input.pressed('KeyR') && input.down('ShiftLeft')) state.reset();   // Shift+R wipes the save
   }
   draw(ctx) {
-    text(ctx, "SIMON'S GAME", 480, 90, { size: 64, align: 'center', color: '#c0392b', stroke: true });
+    text(ctx, "BOXOLINO", 480, 90, { size: 64, align: 'center', color: '#c0392b', stroke: true });
+    text(ctx, "Gemaakt door Simon", 480, 145, { size: 34, align: 'center', color: '#0000ff', stroke: true });
     drawSprite(ctx, assets.get('walk2'), 300, 380, { h: 200, flip: false });
     drawSprite(ctx, assets.get('boss'), 660, 380, { h: 180, flip: true });
     TEXT.controls.forEach((c, i) => text(ctx, c, 480, 420 + i * 28, { size: 20, align: 'center' }));
