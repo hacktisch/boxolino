@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<title>Simon's Game</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>
+  html, body { margin:0; height:100%; background:#3b3a36; overflow:hidden; font-family: "Comic Sans MS", "Chalkboard SE", sans-serif;
+               touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; overscroll-behavior: none; }
+  #game { position:fixed; display:block; background:#f1e8d2; }
+
+  /* ---- touch controls (overlay the game, semi-transparent) ---- */
+  #touch { position:fixed; inset:0; pointer-events:none; display:none; }
+  body.touch #touch { display:block; }
+  #touch .btn, #pad { pointer-events:auto; position:fixed; }
+  #pad { left:max(10px, env(safe-area-inset-left)); bottom:max(10px, env(safe-area-inset-bottom)); width:110px; height:110px; border-radius:50%;
+         background:rgba(255,255,255,0.18); border:2px solid rgba(43,58,43,0.35); }
+  #stick { position:absolute; left:36px; top:36px; width:38px; height:38px; border-radius:50%; background:rgba(43,58,43,0.4); }
+  #pad .arrow { position:absolute; font-size:14px; color:rgba(43,58,43,0.45); }
+  #btns { position:fixed; right:max(10px, env(safe-area-inset-right)); bottom:max(10px, env(safe-area-inset-bottom)); pointer-events:none;
+          display:grid; grid-template-columns:repeat(3, 46px); gap:6px; }
+  .btn { width:46px; height:46px; border-radius:50%; border:2px solid rgba(43,58,43,0.4); background:rgba(255,255,255,0.28);
+         display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:20px; color:rgba(43,58,43,0.8);
+         line-height:1; position:relative !important; }
+  .btn.active { background:rgba(255,233,168,0.95); transform:scale(0.9); }
+  .btn.big { background:rgba(231,76,60,0.35); width:54px; height:54px; font-size:26px; }
+  .btn.special { background:rgba(142,68,173,0.25); }
+  #toggle { position:fixed; top:6px; left:6px; width:28px; height:28px; border-radius:6px; border:2px solid rgba(43,58,43,0.4);
+            background:rgba(255,255,255,0.3); font-size:15px; display:flex; align-items:center; justify-content:center; z-index:10; }
+</style>
+</head>
+<body>
+<canvas id="game" width="960" height="600"></canvas>
+<div id="toggle" title="touch knoppen aan/uit">🎮</div>
+<div id="touch">
+  <div id="pad">
+    <div class="arrow" style="left:48px;top:2px">▲</div><div class="arrow" style="left:48px;bottom:2px">▼</div>
+    <div class="arrow" style="left:5px;top:46px">◀</div><div class="arrow" style="right:5px;top:46px">▶</div>
+    <div id="stick"></div>
+  </div>
+  <div id="btns">
+    <div class="btn special" data-key="KeyS" title="SUPER">S</div>
+    <div class="btn special" data-key="KeyD" title="MEGA SUPER">D</div>
+    <div class="btn special" data-key="KeyU" title="ULTRA SUPER">U</div>
+    <div class="btn" data-key="KeyZ" title="salto">Z</div>
+    <div class="btn" data-key="KeyX" title="schoppen">X</div>
+    <div class="btn big" data-key="Space" title="slaan">👊</div>
+    <div class="btn" data-key="Backspace" title="terug">⌫</div>
+    <div class="btn" data-key="Escape" title="sluit">✕</div>
+    <div class="btn" data-key="Enter" title="OK">↵</div>
+  </div>
+</div>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

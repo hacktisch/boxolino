@@ -1,0 +1,8 @@
+{
+  "name": "simon-game",
+  "private": true,
+  "scripts": {
+    "start": "python3 -m http.server 8080",
+    "sprites": "python3 tools/extract_sprites.py"
+  }
+}

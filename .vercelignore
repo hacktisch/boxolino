@@ -1,0 +1,4 @@
+# not needed on the website: source photos, sprite tool, editor junk
+*.jpg
+tools/
+.claude/
