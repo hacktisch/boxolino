@@ -56,7 +56,7 @@ def cut(im, box):
     return img.crop(bbox) if bbox else img
 
 for src, boxes in BOXES.items():
-    im = Image.open(os.path.join(os.path.dirname(__file__), "..", src))
+    im = Image.open(os.path.join(os.path.dirname(__file__), "..", "local", src))
     for name, box in boxes.items():
         cut(im, box).save(os.path.join(OUT, name + ".png"))
         print("wrote", name)
