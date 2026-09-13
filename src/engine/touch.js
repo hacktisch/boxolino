@@ -30,7 +30,7 @@ export function setupTouch(input) {
       if (Math.cos(a) > 0.38) held.add('ArrowRight'); if (Math.cos(a) < -0.38) held.add('ArrowLeft');
       if (Math.sin(a) > 0.38) held.add('ArrowDown'); if (Math.sin(a) < -0.38) held.add('ArrowUp');
     }
-    for (const d of DIRS) held.has(d) ? input.hold(d) : input.release(d);
+    for (const d of DIRS) held.has(d) ? input.press(d) : input.release(d);   // press() = counts as a new key press once
     const r = Math.min(45, Math.hypot(dx, dy)), a = Math.atan2(dy, dx);
     stick.style.transform = held.size ? `translate(${Math.cos(a) * r}px, ${Math.sin(a) * r}px)` : '';
   };

@@ -5,6 +5,7 @@ import { Effects } from './engine/effects.js';
 import { state } from './state.js';
 import { sound } from './engine/sound.js';
 import { setupTouch } from './engine/touch.js';
+import { setupInstall } from './engine/install.js';
 import { TitleScene } from './scenes/title.js';
 import { LevelScene } from './scenes/level.js';
 import { LEVELS } from './data/config.js';
@@ -36,6 +37,7 @@ function fit() {
 window.refit = fit;
 window.addEventListener('resize', fit); fit();
 setupTouch(game.input);
+setupInstall();
 
 async function main() {
   ctx.fillStyle = '#2b3a2b'; ctx.font = '30px sans-serif'; ctx.fillText('Laden...', 420, 300);

@@ -11,6 +11,7 @@ Then open http://localhost:8080 in a browser. (It must be served over http, not 
 
 Controls: arrow keys walk, Space punch, X kick, Z somersault, Enter use shop / boss / gate,
 S = SUPER and U = ULTRA SUPER in the arena. M mutes sound.
+The game is a PWA (`manifest.webmanifest`, `sw.js`, icons in `assets/icons/`): on a phone it can be installed to the home screen and then runs full screen in landscape; a banner offers this. Bump `CACHE` in `sw.js` when you want to force old installs to refetch everything.
 On phones and tablets on-screen buttons appear (joystick left, actions right); the 🎮 button in the corner toggles them.
 Sound effects are synthesized in `src/engine/sound.js` (no audio files); add a new one to the `SOUNDS` table and call `sound.play('name')`. Progress saves automatically in the browser.
 Shift+R on the title screen wipes the save.
