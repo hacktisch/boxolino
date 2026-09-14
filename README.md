@@ -28,6 +28,10 @@ Shift+R on the title screen wipes the save.
 - `src/scenes/level.js` – a walk-around level, built from a layout in config. `arena.js` – boss fight. `shop.js` – shop overlay. `title.js` – start screen.
 - `src/main.js` – game loop and scene switching.
 
+## Levels 3 and 4
+
+Both have a **supergevecht**: all three bosses of the level at once, unlocked after beating each of them once. Bosses have `traits` (dash, double, stomp, laser). Every 10th hit is a critical. Shops sell surprises: a mystery drink and a lottery ticket (repeatable, random), banana peels (B in the arena: bosses slip), extra lives, an invisibility drink (untouchable for the first seconds of a fight) and a coin magnet. Some bags give bonus kracht after N hits; the Katchin wall in level 4 gives a one-time splinter bonus.
+
 ## Adding a level
 
 Levels are pure data: see `LEVELS` in `src/data/config.js`. Each level lists its gate, bosses, shops

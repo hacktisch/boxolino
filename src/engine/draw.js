@@ -13,9 +13,20 @@ export function drawSprite(ctx, img, x, y, { h = 100, flip = false, rot = 0, alp
   return w;
 }
 
-export function text(ctx, str, x, y, { size = 22, color = '#2b3a2b', align = 'left', bold = true, stroke = false } = {}) {
+// Dutch thousands separators, so 1500000 reads as 1.500.000.
+export const nl = n => Math.round(n).toLocaleString('nl-NL');
+
+export function text(ctx, str, x, y, { size = 22, color = '#2b3a2b', align = 'left', bold = true, stroke = false, maxWidth = 0 } = {}) {
   ctx.save();
-  ctx.font = `${bold ? 'bold ' : ''}${size}px "Comic Sans MS", "Chalkboard SE", sans-serif`;
+  const font = s => `${bold ? 'bold ' : ''}${s}px "Comic Sans MS", "Chalkboard SE", sans-serif`;
+  if (maxWidth) {                      // shrink (and finally clip) rather than run into the next column
+    ctx.font = font(size);
+    const w = ctx.measureText(str).width;
+    if (w > maxWidth) size = Math.max(12, size * maxWidth / w);
+    ctx.font = font(size);
+    while (str.length > 4 && ctx.measureText(str).width > maxWidth) str = str.slice(0, -2) + '…';
+  }
+  ctx.font = font(size);
   ctx.textAlign = align; ctx.textBaseline = 'middle';
   if (stroke) { ctx.lineWidth = 4; ctx.strokeStyle = '#fff'; ctx.strokeText(str, x, y); }
   ctx.fillStyle = color; ctx.fillText(str, x, y);

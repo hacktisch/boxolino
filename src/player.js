@@ -77,7 +77,7 @@ export class Player {
     // shadow
     ctx.save(); ctx.fillStyle = 'rgba(0,0,0,0.15)'; ctx.beginPath(); ctx.ellipse(this.x, this.y, 35, 10, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore();
     if (this.flashT > 0) { ctx.save(); ctx.filter = 'sepia(1) saturate(6) hue-rotate(-30deg)'; }
-    drawSprite(ctx, img, this.x, this.y + dy, { h, flip: this.facing < 0, rot, anchor: a && a.name === 'jump' ? 'center' : 'bottom' });
+    drawSprite(ctx, img, this.x, this.y + dy, { h, flip: this.facing < 0, rot, alpha: this.alpha ?? 1, anchor: a && (a.name === 'jump' || a.name === 'mega') ? 'center' : 'bottom' });
     if (this.flashT > 0) ctx.restore();
   }
 }

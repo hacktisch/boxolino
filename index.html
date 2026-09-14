@@ -27,7 +27,7 @@
   #stick { position:absolute; left:36px; top:36px; width:38px; height:38px; border-radius:50%; background:rgba(43,58,43,0.4); }
   #pad .arrow { position:absolute; font-size:14px; color:rgba(43,58,43,0.45); }
   #btns { position:fixed; right:max(10px, env(safe-area-inset-right)); bottom:max(10px, env(safe-area-inset-bottom)); pointer-events:none;
-          display:grid; grid-template-columns:repeat(3, 46px); gap:6px; }
+          display:grid; grid-template-columns:repeat(5, 46px); gap:6px; align-items:center; justify-items:center; }
   .btn { width:46px; height:46px; border-radius:50%; border:2px solid rgba(43,58,43,0.4); background:rgba(255,255,255,0.28);
          display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:20px; color:rgba(43,58,43,0.8);
          line-height:1; position:relative !important; }
@@ -61,12 +61,13 @@
     <div class="btn special" data-key="KeyS" title="SUPER">S</div>
     <div class="btn special" data-key="KeyD" title="MEGA SUPER">D</div>
     <div class="btn special" data-key="KeyU" title="ULTRA SUPER">U</div>
+    <div class="btn" data-key="KeyB" title="bananenschil">🍌</div>
     <div class="btn" data-key="KeyZ" title="salto">Z</div>
-    <div class="btn" data-key="KeyX" title="schoppen">X</div>
-    <div class="btn big" data-key="Space" title="slaan">👊</div>
     <div class="btn" data-key="Backspace" title="terug">⌫</div>
     <div class="btn" data-key="Escape" title="sluit">✕</div>
     <div class="btn" data-key="Enter" title="OK">↵</div>
+    <div class="btn" data-key="KeyX" title="schoppen">X</div>
+    <div class="btn big" data-key="Space" title="slaan">👊</div>
   </div>
 </div>
 <script type="module" src="src/main.js"></script>

@@ -24,7 +24,19 @@ BOXES = {
     # bosses overlap on the page: `erase` = rectangles (source pixels) to blank out inside the box
     "boss2a": {"box": (705,128,835,283), "erase": [(790,192,835,283)]},
     "boss2b": {"box": (765,140,960,283), "erase": [(765,140,832,193), (765,215,800,283)]},
-    "boss2c": {"box": (960,20,1225,258), "erase": [(960,135,1005,258)]}, "bag2a": (55,505,200,715), "bag2b": (55,730,182,935), "wall2": (985,680,1195,945),
+    "boss2c": {"box": (960,20,1225,258), "erase": [(960,135,1005,258)]},
+    "bag2a": (55,505,200,715), "bag2b": (55,730,182,935), "wall2": (985,680,1195,945),
+  },
+  "level-3.jpg": {
+    "gate3": (50,25,230,200), "shop3a": (258,5,392,148), "shop3b": (438,5,562,142), "shop3c": (608,15,712,135),
+    "super3": (700,12,895,165), "boss3a": (898,10,1095,138), "boss3b": (858,185,1100,378), "boss3c": (838,405,1112,598),
+    "bag3a": (5,448,145,642), "bag3b": (5,648,110,815), "wall3": (698,648,852,818),
+  },
+  "level-4.jpg": {
+    "gate4": (15,22,155,165), "shop4a": (188,22,322,112), "shop4b": (372,22,512,118), "shop4c": (578,22,702,108),
+    "super4": (678,148,822,272), "boss4a": (812,22,1062,200),
+    "boss4b": {"box": (718,200,1005,472), "erase": [(718,200,825,275)]},
+    "boss4c": (478,278,702,472), "bag4a": (25,448,175,622), "bag4b": (25,625,155,818), "wall4": (898,648,1085,835),
   },
 }
 OUT = os.path.join(os.path.dirname(__file__), "..", "assets", "sprites")
@@ -33,25 +45,26 @@ def cut(im, box):
     erase = []
     if isinstance(box, dict): erase, box = box["erase"], box["box"]
     a = np.asarray(im.crop(box).convert("RGB")).astype(np.float32)
-    for (ex0, ey0, ex1, ey1) in erase:   # paint erase rectangles with the paper colour
-        a[max(0,ey0-box[1]):ey1-box[1], max(0,ex0-box[0]):ex1-box[0]] = np.median(a[:5], axis=(0,1))
-    h, w, _ = a.shape
-    # paper colour = median of the crop border
     border = np.concatenate([a[0], a[-1], a[:,0], a[:,-1]])
     paper = np.median(border, axis=0)
-    dist = np.sqrt(((a - paper)**2).sum(axis=2))          # how far from paper colour
-    alpha = np.clip((dist - 12) / 30.0, 0, 1)             # soft threshold
+    for (ex0, ey0, ex1, ey1) in erase:   # paint erase rectangles with the paper colour
+        a[max(0,ey0-box[1]):ey1-box[1], max(0,ex0-box[0]):ex1-box[0]] = paper
+    # Local paper colour: strokes are thin, so a wide median filter (then blur) per channel
+    # removes them and leaves the paper, including its lighting gradient and shadows.
+    from PIL import ImageFilter
+    src = Image.fromarray(a.astype(np.uint8))
+    bg = np.dstack([np.asarray(ch.filter(ImageFilter.MedianFilter(51)).filter(ImageFilter.GaussianBlur(6))) for ch in src.split()]).astype(np.float32)
+    dist = np.sqrt(((a - bg)**2).sum(axis=2))            # how far from the local paper colour
+    alpha = np.clip((dist - 18) / 34.0, 0, 1)             # soft threshold
     # blue annotation text -> transparent (mask grown by 3px to catch the fringe)
     r, g, b = a[...,0], a[...,1], a[...,2]
     blue = (b > r + 25) & (b > g + 10)
-    from PIL import ImageFilter
     blue = np.asarray(Image.fromarray((blue*255).astype(np.uint8)).filter(ImageFilter.MaxFilter(7))) > 0
     alpha[blue] = 0
     # push colours away from the paper colour so pencil strokes read as solid ink
-    rgb = np.clip(paper + (a - paper) * 2.6, 0, 255)
+    rgb = np.clip(np.minimum(bg + (a - bg) * 2.6, bg), 0, 255)   # only ever darker than the paper
     out = np.dstack([rgb, alpha * 255]).astype(np.uint8)
     img = Image.fromarray(out, "RGBA")
-    # trim fully transparent margins
     bbox = Image.fromarray((alpha*255).astype(np.uint8)).getbbox()
     return img.crop(bbox) if bbox else img
 
