@@ -28,6 +28,27 @@ Shift+R on the title screen wipes the save.
 - `src/scenes/level.js` – a walk-around level, built from a layout in config. `arena.js` – boss fight. `shop.js` – shop overlay. `title.js` – start screen.
 - `src/main.js` – game loop and scene switching.
 
+## How the numbers are balanced
+
+`src/data/config.js` is tuned around one idea: **every world costs about the same amount of work**
+(roughly 750 bag hits, or a dozen boss wins) even though its numbers are ten times bigger.
+
+| | world 1 | world 2 | world 3 | world 4 |
+|---|---|---|---|---|
+| levels | 1–20 | 20–50 | 50–120 | 120–200 |
+| kracht on arrival | 7 | ~220 | ~1.600 | ~8.700 |
+| first boss | 13 punches | 18 | 21 | 29 |
+| hits you survive | 9 | 22 | 18 | 20 |
+
+So `xpForLevel`, `basePower` and `maxHp` all grow with the level (`lvl^1.6`, `lvl²/40`, `lvl²/2`), and
+each world's bags, walls, bosses and prices are scaled to the level band that plays it. A wall is
+`base × wallLevel^1.35`, which keeps it at 10–25 punches forever instead of exploding. A boss's health
+grows 1,35× per win but its prize only 1,25×, so farming one boss has diminishing returns.
+
+Saves made before this balance are migrated on load (`src/state.js`): the level is rebuilt from the XP
+actually earned and stops at `CONTENT_LEVEL`, because the old curve let the level reach 1000 while the
+last gate is 200. Coins, items and wall progress are kept.
+
 ## Levels 3 and 4
 
 Both have a **supergevecht**: all three bosses of the level at once, unlocked after beating each of them once. Bosses have `traits` (dash, double, stomp, laser). Every 10th hit is a critical. Shops sell surprises: a mystery drink and a lottery ticket (repeatable, random), banana peels (B in the arena: bosses slip), extra lives, an invisibility drink (untouchable for the first seconds of a fight) and a coin magnet. Some bags give bonus kracht after N hits; the Katchin wall in level 4 gives a one-time splinter bonus.

@@ -49,6 +49,8 @@ export const TUNING = {
   basePower: lvl => Math.round(5 + lvl * 2 + lvl * lvl / 40),   // "kracht" without gloves
   maxHp: lvl => Math.round(100 + lvl * 10 + lvl * lvl / 2),
   wallRespawn: 2.5,                       // seconds before a new wall appears
+  // Each wall is stronger than the last (Simon's rule). lvl^1.35 keeps a wall at roughly
+  // 10-25 punches forever, instead of the old 1.35^lvl that reached 40.000 hp by wall 25.
   kickMultiplier: 1.6,                    // kick hits harder but is slower
   superMeterPerHit: 12,                   // meter fills per landed hit (0-100)
   superCost: 50, superMultiplier: 4,      // SUPER: needs 50 meter, 4x power
@@ -144,7 +146,7 @@ export const LEVELS = [
     bags: [{ id: 'bag1', x: 70, y: 560, h: 140, sprite: 'bag1', xp: 5, at: { x: 150, y: 540 }, block: { x: 20, y: 440, w: 95, h: 120 } },
            { id: 'goldbag', x: 250, y: 565, h: 155, sprite: 'bag_gold', xp: 20, needs: 'goldBag', at: { x: 330, y: 540 }, block: { x: 195, y: 430, w: 120, h: 130 } }],
     walls: [{ id: 'wall', x: 830, y: 590, h: 260, sprite: 'wall', at: { x: 690, y: 500 }, block: { x: 720, y: 330, w: 220, h: 260 },
-              hp: lvl => Math.round(30 * Math.pow(lvl, 1.5)), coins: lvl => 15 * lvl }],
+              hp: lvl => Math.round(30 * Math.pow(lvl, 1.35)), coins: lvl => 15 * lvl }],
   },
   {
     id: 'level2', name: 'Level 2 - De stad', start: { x: 480, y: 520 }, prev: 'gym',
@@ -168,7 +170,7 @@ export const LEVELS = [
       { id: 'bag2b', x: 90, y: 590, h: 165, sprite: 'bag2b', xp: 200, at: { x: 170, y: 565 }, block: { x: 40, y: 430, w: 90, h: 160 } },
     ],
     walls: [{ id: 'wall2', x: 830, y: 590, h: 240, sprite: 'wall2', at: { x: 690, y: 500 }, block: { x: 720, y: 350, w: 220, h: 240 },
-              hp: lvl => Math.round(600 * Math.pow(lvl, 1.5)), coins: lvl => 60 * lvl }],
+              hp: lvl => Math.round(600 * Math.pow(lvl, 1.35)), coins: lvl => 60 * lvl }],
   },
   {
     id: 'level3', name: 'Level 3 - De bergen', start: { x: 480, y: 450 }, prev: 'level2',
@@ -190,7 +192,7 @@ export const LEVELS = [
         unlock: { hits: 50, flag: 'ironfist', power: 1500, text: 'IJZEREN VUIST! +1500 kracht' } },
     ],
     walls: [{ id: 'wall3', x: 680, y: 590, h: 160, sprite: 'wall3', at: { x: 560, y: 520 }, block: { x: 605, y: 430, w: 150, h: 160 },
-              hp: lvl => Math.round(3600 * Math.pow(lvl, 1.5)), coins: lvl => 500 * lvl, label: 'Bakstenen muur' }],
+              hp: lvl => Math.round(3600 * Math.pow(lvl, 1.35)), coins: lvl => 500 * lvl, label: 'Bakstenen muur' }],
   },
   {
     id: 'level4', name: 'Level 4 - De robotfabriek', start: { x: 480, y: 480 }, prev: 'level3',
@@ -213,7 +215,7 @@ export const LEVELS = [
         unlock: { hits: 100, flag: 'titanfist', power: 15000, text: 'TITANENVUIST! +15000 kracht' } },
     ],
     walls: [{ id: 'wall4', x: 700, y: 590, h: 140, sprite: 'wall4', at: { x: 560, y: 540 }, block: { x: 620, y: 450, w: 160, h: 140 },
-              hp: lvl => Math.round(36000 * Math.pow(lvl, 1.5)), coins: lvl => 6000 * lvl, label: 'Katchin staal',
+              hp: lvl => Math.round(36000 * Math.pow(lvl, 1.35)), coins: lvl => 6000 * lvl, label: 'Katchin staal',
               firstBreak: { flag: 'katchin', power: 8000, text: 'KATCHIN-SPLINTER! +8000 kracht' } }],
   },
 ];

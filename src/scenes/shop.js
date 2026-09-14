@@ -12,7 +12,7 @@ const EFFECTS = {
     if (r < 0.15) return 'Bleh... smaakt naar niks.';
     if (r < 0.55) return `Mmm! +${nl(give(50 + Math.random() * 250))} kracht`;
     if (r < 0.90) return `WOW! +${nl(give(300 + Math.random() * 700))} kracht!`;
-    sound.play('levelUp'); return `BOEM!!! +${nl(give(3000))} kracht!!!`;
+    sound.play('levelUp'); return `BOEM!!! +${nl(give(1500))} kracht!!!`;
   },
   lottery(scale) {
     const r = Math.random(), win = n => { const v = Math.round(n * scale); state.addCoins(v); return nl(v); };
